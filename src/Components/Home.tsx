@@ -28,6 +28,34 @@ const backgrounds = [
   Karuzela7,
 ];
 
+// Kroki sekcji "How It Works"
+const processSteps = [
+  {
+    img: aboutUs1,
+    icon: idea,
+    title: "Let's Talk Vision",
+    text: "We start with a conversation about your style, needs and how you use the space — so your vision is clear from day one.",
+  },
+  {
+    img: aboutUs2,
+    icon: partner,
+    title: "Plan & Agreement",
+    text: "You get a clear plan, budget and timeline in writing. Fully transparent, no hidden costs, no surprises.",
+  },
+  {
+    img: aboutUs3,
+    icon: services,
+    title: "Design & Preparation",
+    text: "We select materials, finalize layouts and prepare every detail needed to bring your concept to life.",
+  },
+  {
+    img: aboutUs4,
+    icon: tools,
+    title: "Execution",
+    text: "Our team handles the entire build with precision and care — delivering high-quality results, on time.",
+  },
+];
+
 const Home = () => {
   // Poprzednio: handleChange wołane WEWNĄTRZ setState (efekt uboczny w updaterze,
   // nieaktualne wartości stanu, w StrictMode podwójne wywołania). Wystarczy samo:
@@ -54,7 +82,7 @@ const Home = () => {
     visible: (i: number = 0) => ({
       opacity: 1,
       y: 0,
-      transition: { duration: 1, delay: i * 0.3 },
+      transition: { duration: 0.45, delay: i * 0.1 },
     }),
   };
 
@@ -68,7 +96,7 @@ const Home = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            transition={{ duration: 0.9, ease: "easeInOut" }}
             className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${backgroundImg})` }}
           />
@@ -184,75 +212,100 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="bg-[#12171b] h-full w-full flex items-center justify-center font-family-serif4">
-        <div className="bg-[#12171b] w-full max-w-[80rem] h-auto my-16 px-4">
-          <motion.h1
+      {/* ===== HOW IT WORKS ===== */}
+      <section className="relative w-full bg-[#12171b] py-20 md:py-28 font-family-serif4 overflow-hidden">
+        {/* delikatna poświata w tle */}
+        <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[50rem] h-[50rem] rounded-full bg-[#FF9800]/[0.06] blur-3xl" />
+
+        <div className="relative max-w-[80rem] mx-auto px-4 sm:px-6">
+          {/* Nagłówek */}
+          <motion.div
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             custom={0}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white text-center font-bold leading-tight px-4"
+            className="text-center max-w-2xl mx-auto"
           >
-            How It Works
-          </motion.h1>
+            <p className="text-[#FF9800] uppercase tracking-[0.3em] text-xs sm:text-sm font-semibold">
+              Our Process
+            </p>
+            <h2 className="mt-3 text-4xl sm:text-5xl lg:text-6xl text-white font-bold leading-tight">
+              How It Works
+            </h2>
+            <div className="mx-auto mt-6 h-[2px] w-16 bg-[#FF9800]" />
+            <p className="mt-6 text-gray-400 text-base sm:text-lg leading-relaxed">
+              From the first conversation to the final walkthrough — a clear,
+              four-step process with no surprises along the way.
+            </p>
+          </motion.div>
 
-          <div className="w-48 sm:w-64 md:w-80 lg:w-96 h-0.5 bg-[hsl(224,22%,30%)] mx-auto mb-8"></div>
-
-          <div className="flex gap-[4.25rem] items-center justify-center ab:items-baseline flex-col text-center ab:flex-row">
-            {[
-              {
-                img: aboutUs1,
-                icon: idea,
-                title: "Let's Talk Vision",
-                text: "We begin with a conversation to understand your style, needs, and the function of your space. This helps us capture your vision from the start.",
-              },
-              {
-                img: aboutUs2,
-                icon: partner,
-                title: "Plan & Agreement",
-                text: "We outline a clear plan, budget, and timeline — ensuring everything is transparent and aligned with your expectations.",
-              },
-              {
-                img: aboutUs3,
-                icon: services,
-                title: "Design & Preparation",
-                text: "From selecting materials to finalizing layouts, we prepare every detail needed to bring your concept to life.",
-              },
-              {
-                img: aboutUs4,
-                icon: tools,
-                title: "Execution",
-                text: "Our team manages the entire process with precision, delivering high-quality results on time.",
-              },
-            ].map((step, i) => (
-              <motion.div
-                key={i}
+          {/* Kroki */}
+          <ol className="mt-14 md:mt-16 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
+            {processSteps.map((step, i) => (
+              <motion.li
+                key={step.title}
                 variants={fadeUp}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.2 }}
                 custom={i}
-                className="flex flex-col items-center gap-[1rem] w-[70vw] ab:w-[16.75rem]"
+                className="group relative flex flex-col rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:border-[#FF9800]/50 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(255,152,0,0.25)] transition duration-300"
               >
-                <img src={step.icon} alt="" className="w-[50px] h-[50px]" />
-                <img
-                  src={step.img}
-                  alt={step.title}
-                  className="w-[90%] ab:w-[18.25rem] h-[20rem] ab:h-auto object-cover rounded-2xl shadow-sm"
-                />
-                <h2 className="text-white text-[1.5rem]">
-                  <span className="font-light">{i + 1}.</span> {step.title}
-                </h2>
-                <div className="w-[12rem] h-[1px] bg-[hsl(224,22%,33%)]"></div>
-                <p className="text-white text-[1.25rem] font-light">
-                  {step.text}
-                </p>
-              </motion.div>
+                {/* Zdjęcie */}
+                <div className="relative h-56 overflow-hidden">
+                  <img
+                    src={step.img}
+                    alt={step.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#12171b] via-[#12171b]/20 to-transparent" />
+                  <span className="absolute top-4 left-4 rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-[0.7rem] font-semibold tracking-[0.2em] text-[#FF9800]">
+                    STEP {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {/* Ikona */}
+                  <div className="absolute -bottom-7 left-6 flex h-14 w-14 items-center justify-center rounded-full bg-[#FF9800] ring-4 ring-[#12171b] shadow-lg">
+                    <img src={step.icon} alt="" className="h-7 w-7" />
+                  </div>
+                </div>
+
+                {/* Treść */}
+                <div className="relative flex flex-1 flex-col px-6 pt-11 pb-8">
+                  <h3 className="text-white text-xl sm:text-2xl font-semibold">
+                    {step.title}
+                  </h3>
+                  <p className="mt-3 text-gray-400 leading-relaxed">{step.text}</p>
+                  {/* Duży numer w tle */}
+                  <span className="pointer-events-none select-none absolute bottom-2 right-5 text-7xl font-bold text-white/[0.04]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+              </motion.li>
             ))}
-          </div>
+          </ol>
+
+          {/* CTA */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            custom={1}
+            className="mt-14 md:mt-16 flex flex-col items-center gap-4 text-center"
+          >
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 rounded-full bg-[#FF9800] px-8 py-4 text-lg font-semibold text-white hover:bg-white hover:text-black hover:scale-[1.03] transition duration-300 shadow-lg"
+            >
+              Start Your Project <span aria-hidden="true">→</span>
+            </Link>
+            <p className="text-gray-500 text-sm tracking-wide">
+              Free consultation · Transparent pricing · On-time delivery
+            </p>
+          </motion.div>
         </div>
-      </div>
+      </section>
     </>
   );
 };
