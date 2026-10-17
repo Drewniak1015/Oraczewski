@@ -3,10 +3,13 @@
 // Opcjonalnie VITE_API_URL, jeśli kiedyś API będzie gdzie indziej.
 export const API_URL: string = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
 
+// Klucze EmailJS są publiczne z założenia (formularz wysyła maila prosto
+// z przeglądarki), więc mogą być wpisane w kodzie. Zmienne VITE_* w .env
+// mają pierwszeństwo, jeśli są ustawione.
 export const EMAILJS = {
-  serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID as string,
-  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string,
-  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string,
+  serviceId: (import.meta.env.VITE_EMAILJS_SERVICE_ID as string) || "service_alsm8yg",
+  templateId: (import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string) || "template_a2gtln6",
+  publicKey: (import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string) || "feWGGEsrV-dtDXdsr",
 };
 
 // --- Token admina ---
