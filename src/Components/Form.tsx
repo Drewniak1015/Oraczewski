@@ -376,7 +376,6 @@ const Form = () => {
         >
           {/* --- Panel informacyjny --- */}
           <aside className="relative bg-[#12171b] text-white p-8 sm:p-10 overflow-hidden">
-            <div className="pointer-events-none absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-[#FF9800]/15 blur-3xl" />
             <h2 className="relative text-2xl font-bold">What happens next?</h2>
             <ol className="relative mt-8 space-y-6">
               {nextSteps.map((st, i) => (

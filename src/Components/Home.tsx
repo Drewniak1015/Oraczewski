@@ -264,9 +264,6 @@ const Home = () => {
 
       {/* ===== HOW IT WORKS ===== */}
       <section className="relative w-full bg-[#12171b] py-20 md:py-28 font-family-serif4 overflow-hidden">
-        {/* delikatna poświata w tle */}
-        <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[50rem] h-[50rem] rounded-full bg-[#FF9800]/[0.06] blur-3xl" />
-
         <div className="relative max-w-[80rem] mx-auto px-4 sm:px-6">
           {/* Nagłówek */}
           <motion.div
