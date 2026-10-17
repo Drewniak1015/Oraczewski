@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@theme {
+  --font-family-pro: "Source Code Pro", monospace;
+  --font-family-serif4: "Source Serif 4", serif;
+  --font-family-Geologica: "Geologica", sans-serif;
+  --font-family-Georama: "Georama", sans-serif;
+  --breakpoint-ab: 1300px;
+}
