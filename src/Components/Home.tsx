@@ -264,17 +264,19 @@ const Home = () => {
                   <span className="absolute top-4 left-4 rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-[0.7rem] font-semibold tracking-[0.2em] text-[#FF9800]">
                     STEP {String(i + 1).padStart(2, "0")}
                   </span>
-                  {/* Ikona */}
-                  <div className="absolute -bottom-7 left-6 flex h-14 w-14 items-center justify-center rounded-full bg-[#FF9800] ring-4 ring-[#12171b] shadow-lg">
-                    <img src={step.icon} alt="" className="h-7 w-7" />
-                  </div>
                 </div>
 
                 {/* Treść */}
-                <div className="relative flex flex-1 flex-col px-6 pt-11 pb-8">
-                  <h3 className="text-white text-xl sm:text-2xl font-semibold">
-                    {step.title}
-                  </h3>
+                <div className="relative flex flex-1 flex-col px-6 pt-6 pb-8">
+                  {/* Ikona + tytuł w jednym rzędzie */}
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#FF9800]/40 bg-[#FF9800]/10 group-hover:bg-[#FF9800]/20 transition-colors duration-300">
+                      <img src={step.icon} alt="" className="h-6 w-6 object-contain" />
+                    </div>
+                    <h3 className="text-white text-xl sm:text-2xl font-semibold leading-tight">
+                      {step.title}
+                    </h3>
+                  </div>
                   <p className="mt-3 text-gray-400 leading-relaxed">{step.text}</p>
                   {/* Duży numer w tle */}
                   <span className="pointer-events-none select-none absolute bottom-2 right-5 text-7xl font-bold text-white/[0.04]">
