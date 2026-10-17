@@ -164,13 +164,10 @@ const operatingCities = [
   "Santa Rosa",
 ];
 
+// Jedna, prosta animacja: element wjeżdża lekko z dołu przy przewinięciu
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (i: number = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, delay: i * 0.06, ease: "easeOut" },
-  }),
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
 
 const Services: React.FC = () => {
@@ -179,16 +176,16 @@ const Services: React.FC = () => {
       {/* ===== Nagłówek strony ===== */}
       <section className="bg-[#12171b] text-white">
         <div className="max-w-[80rem] mx-auto px-4 sm:px-6 py-16 md:py-24 text-center">
-          <motion.p variants={fadeUp} initial="hidden" animate="visible" custom={0}
+          <motion.p variants={fadeUp} initial="hidden" animate="visible"
             className="text-[#FF9800] uppercase tracking-[0.3em] text-xs sm:text-sm font-semibold">
             What We Do
           </motion.p>
-          <motion.h1 variants={fadeUp} initial="hidden" animate="visible" custom={1}
+          <motion.h1 variants={fadeUp} initial="hidden" animate="visible"
             className="mt-3 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
             Our Services
           </motion.h1>
           <div className="mx-auto mt-6 h-[2px] w-16 bg-[#FF9800]" />
-          <motion.p variants={fadeUp} initial="hidden" animate="visible" custom={2}
+          <motion.p variants={fadeUp} initial="hidden" animate="visible"
             className="mt-6 max-w-2xl mx-auto text-gray-400 text-base sm:text-lg leading-relaxed">
             From a single room refresh to a complete remodel — one team, one point of contact,
             and craftsmanship you can see in every detail.
@@ -206,16 +203,15 @@ const Services: React.FC = () => {
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.15 }}
-              custom={index % 2}
-              className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-[#ece8df] shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300"
+              viewport={{ once: true, amount: 0.2 }}
+              className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-[#ece8df] shadow-sm hover:shadow-lg transition-shadow duration-300"
             >
               <div className="relative h-60 sm:h-72 lg:h-80 overflow-hidden">
                 <img
                   src={panel.image}
                   alt={panel.title}
                   loading="lazy"
-                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover w-full h-full"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                 <div className="absolute top-4 left-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white/90 backdrop-blur-sm text-2xl shadow">
@@ -243,7 +239,7 @@ const Services: React.FC = () => {
                   to="/contact"
                   className="mt-auto pt-6 inline-flex items-center gap-1.5 self-start font-semibold text-[#313742] hover:text-[#FF9800] transition-colors"
                 >
-                  Request a quote <span aria-hidden="true" className="group-hover:translate-x-1 transition-transform">→</span>
+                  Request a quote <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </motion.article>
@@ -259,21 +255,23 @@ const Services: React.FC = () => {
           </p>
           <h2 className="mt-3 text-3xl sm:text-4xl font-bold">We Operate Across the Bay Area</h2>
           <div className="mx-auto mt-6 h-[2px] w-16 bg-[#FF9800]" />
-          <div className="mt-10 flex flex-wrap justify-center gap-2.5 sm:gap-3 max-w-4xl mx-auto">
-            {operatingCities.map((city, i) => (
-              <motion.span
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="mt-10 flex flex-wrap justify-center gap-2.5 sm:gap-3 max-w-4xl mx-auto"
+          >
+            {operatingCities.map((city) => (
+              <span
                 key={city}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.015, duration: 0.25, ease: "easeOut" }}
-                viewport={{ once: true }}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#faf9f6] border border-[#ece8df] text-sm sm:text-base hover:border-[#FF9800] hover:text-[#FF9800] transition-colors cursor-default"
               >
                 <span aria-hidden="true" className="text-[#FF9800] text-xs">●</span>
                 {city}
-              </motion.span>
+              </span>
             ))}
-          </div>
+          </motion.div>
           <p className="mt-8 text-[#6b717b]">
             Don’t see your city? <Link to="/contact" className="font-semibold text-[#313742] underline hover:text-[#FF9800]">Ask us</Link> — we may still be able to help.
           </p>

@@ -88,71 +88,110 @@ const Home = () => {
 
   return (
     <>
-      <div className="relative w-full h-[calc(100vh-6rem)] overflow-hidden">
-        {/* Płynne przenikanie: stare zdjęcie znika, nowe pojawia się na nim */}
+      {/* ===== HERO ===== */}
+      <section className="relative w-full h-[calc(100svh-6rem)] min-h-[34rem] overflow-hidden bg-black">
+        {/* Zdjęcia: płynne przenikanie + delikatne, powolne przybliżenie */}
         <AnimatePresence initial={false}>
           <motion.div
             key={backgroundImg}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, scale: 1.08 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.9, ease: "easeInOut" }}
+            transition={{
+              opacity: { duration: 1, ease: "easeInOut" },
+              scale: { duration: 6, ease: "easeOut" },
+            }}
             className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${backgroundImg})` }}
           />
         </AnimatePresence>
 
-        {/* Przyciemnienie – biały tekst jest czytelny na każdym zdjęciu */}
-        <div className="absolute inset-0 z-[1] bg-black/35" />
+        {/* Przyciemnienie – mocniejsze na dole i po bokach, tekst zawsze czytelny */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/75 via-black/35 to-black/30" />
+        <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.45)_100%)]" />
 
-        {/* Kropki do ręcznej zmiany slajdu */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-          {backgrounds.map((_, i) => (
-            <button
-              key={i}
-              aria-label={`Slide ${i + 1}`}
-              onClick={() => setSlide(i)}
-              className={`h-2.5 rounded-full transition-all ${
-                i === slide ? "w-8 bg-white" : "w-2.5 bg-white/50 hover:bg-white/80"
-              }`}
-            />
-          ))}
-        </div>
-
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-          <motion.h1
+        {/* Treść */}
+        <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">
+          <motion.span
             variants={fadeUp}
             initial="hidden"
             animate="visible"
             custom={0}
-            className="text-[2rem] sm:text-[2.5rem] md:text-[3rem] lg:text-[4rem] text-[#F8F9FA] mb-4 md:mb-6 font-bold font-family-Geologica tracking-wide text-shadow-lg"
+            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-md px-4 py-1.5 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.25em] text-white/90"
           >
-            TOP QUALITY IN CALIFORNIA
+            <span className="h-1.5 w-1.5 rounded-full bg-[#FF9800]" />
+            Interior Finishing · Bay Area, CA
+          </motion.span>
+
+          <motion.h1
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={1}
+            className="mt-6 max-w-5xl text-[2.4rem] leading-[1.05] sm:text-6xl lg:text-7xl font-bold text-white font-family-Geologica tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.35)]"
+          >
+            Top Quality Interiors
+            <br />
+            <span className="text-[#FF9800]">in California</span>
           </motion.h1>
 
           <motion.p
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            custom={1}
-            className="text-[1rem] sm:text-[1.25rem] md:text-[1.5rem] text-white mb-6 md:mb-10 font-family-serif4 text-shadow-lg"
+            custom={2}
+            className="mt-6 max-w-2xl text-base sm:text-lg md:text-xl text-white/85 leading-relaxed font-family-serif4"
           >
-            We do construction services in all Bay Area
+            From kitchens and bathrooms to complete remodels — European craftsmanship for homes
+            across the entire Bay Area.
           </motion.p>
 
-
-          {/* Wcześniej <button> bez akcji – nic się nie działo po kliknięciu */}
-          <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={2}
-            className="w-full flex justify-center">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={3}
+            className="mt-10 flex w-full flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
+          >
             <Link
               to="/contact"
-              className="flex items-center justify-center transition duration-300 ease-in-out text-[1.25rem] sm:text-[1.5rem] md:text-[2rem] lg:text-[2.5rem] text-[#D3D3D3] w-full max-w-[20rem] sm:max-w-[30rem] md:max-w-[35rem] lg:max-w-[45rem] h-[4rem] sm:h-[5rem] md:h-[6.375rem] bg-black rounded-full hover:bg-white hover:text-black hover:scale-[1.05] shadow-2xl tracking-wide font-family-Georama"
+              className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-[#FF9800] px-8 py-4 text-base sm:text-lg font-semibold text-white shadow-[0_10px_30px_-8px_rgba(255,152,0,0.7)] hover:bg-white hover:text-black transition-colors duration-300"
             >
-              START YOUR RENOVATION TODAY
+              Start Your Renovation
+              <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </Link>
+            <Link
+              to="/portfolio"
+              className="inline-flex w-full sm:w-auto items-center justify-center rounded-full border border-white/30 bg-white/10 backdrop-blur-md px-8 py-4 text-base sm:text-lg font-semibold text-white hover:bg-white/20 hover:border-white/60 transition-colors duration-300"
+            >
+              View Our Work
             </Link>
           </motion.div>
         </div>
-      </div>
+
+        {/* Dół: kropki slajdów */}
+        <div className="absolute bottom-7 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+          {backgrounds.map((_, i) => (
+            <button
+              key={i}
+              aria-label={`Slide ${i + 1}`}
+              onClick={() => setSlide(i)}
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                i === slide ? "w-10 bg-[#FF9800]" : "w-4 bg-white/40 hover:bg-white/70"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Wskazówka przewijania (komputer) */}
+        <div className="hidden md:flex absolute bottom-7 right-8 z-20 flex-col items-center gap-2 text-white/60 text-[0.65rem] uppercase tracking-[0.3em]">
+          <span>Scroll</span>
+          <span className="relative h-10 w-px overflow-hidden bg-white/20">
+            <span className="absolute left-0 top-0 h-4 w-px bg-white animate-[scrollhint_1.8s_ease-in-out_infinite]" />
+          </span>
+          <style>{`@keyframes scrollhint{0%{transform:translateY(-100%)}100%{transform:translateY(250%)}}`}</style>
+        </div>
+      </section>
 
       {/* ===== WELCOME ===== */}
       <section className="bg-[#faf9f6] w-full py-20 md:py-28 font-family-serif4 text-[#313742]">
@@ -261,7 +300,7 @@ const Home = () => {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 custom={i}
-                className="group relative flex flex-col rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:border-[#FF9800]/50 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(255,152,0,0.25)] transition duration-300"
+                className="group relative flex flex-col rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:border-[#FF9800]/50 transition-colors duration-300"
               >
                 {/* Zdjęcie */}
                 <div className="relative h-56 overflow-hidden">
@@ -269,7 +308,7 @@ const Home = () => {
                     src={step.img}
                     alt={step.title}
                     loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#12171b] via-[#12171b]/20 to-transparent" />
                   <span className="absolute top-4 left-4 rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-[0.7rem] font-semibold tracking-[0.2em] text-[#FF9800]">
@@ -281,7 +320,7 @@ const Home = () => {
                 <div className="relative flex flex-1 flex-col px-6 pt-6 pb-8">
                   {/* Ikona + tytuł w jednym rzędzie */}
                   <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#FF9800]/40 bg-[#FF9800]/10 group-hover:bg-[#FF9800]/20 transition-colors duration-300">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#FF9800]/40 bg-[#FF9800]/10">
                       <img src={step.icon} alt="" className="h-6 w-6 object-contain" />
                     </div>
                     <h3 className="text-white text-xl sm:text-2xl font-semibold leading-tight">
@@ -309,7 +348,7 @@ const Home = () => {
           >
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-[#FF9800] px-8 py-4 text-lg font-semibold text-white hover:bg-white hover:text-black hover:scale-[1.03] transition duration-300 shadow-lg"
+              className="inline-flex items-center gap-2 rounded-full bg-[#FF9800] px-8 py-4 text-lg font-semibold text-white hover:bg-white hover:text-black transition-colors duration-300 shadow-lg"
             >
               Start Your Project <span aria-hidden="true">→</span>
             </Link>

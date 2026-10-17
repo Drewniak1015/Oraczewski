@@ -24,10 +24,6 @@ const DESCRIPTION_MAX = 1000;
 const COOLDOWN_SECONDS = 60; // blokada ponownego wysłania po sukcesie
 /* ================================================================ */
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.04 } },
-};
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" } },
@@ -287,28 +283,53 @@ const Form = () => {
   };
 
   /* ---------- wygląd ---------- */
-  const inputClass = (name: FieldName) =>
-    `w-full bg-white text-[#313742] rounded-2xl h-[3.5rem] md:h-[4rem] px-4 shadow-[0_3px_8px_rgb(0,0,0,0.12)] border-2 focus:outline-none transition ${
-      touched[name] && errors[name]
-        ? "border-red-400 focus:border-red-500 bg-red-50/40"
-        : touched[name] && !errors[name] && name !== "projectDescription"
-        ? "border-green-400/70 focus:border-[#FF9800]"
-        : "border-transparent focus:border-[#FF9800]"
+  const isBad = (name: FieldName) => !!(touched[name] && errors[name]);
+  const isGood = (name: FieldName) =>
+    !!(touched[name] && !errors[name] && name !== "projectDescription" && name !== "consent");
+
+  const inputClass = (name: FieldName, withIcon = true) =>
+    `peer w-full rounded-xl border bg-[#faf9f6] text-[#313742] placeholder:text-[#a3a7ae] h-[3.25rem] ${
+      withIcon ? "pl-12" : "pl-4"
+    } pr-10 text-[0.98rem] outline-none transition duration-200 focus:bg-white focus:ring-4 ${
+      isBad(name)
+        ? "border-red-300 bg-red-50/50 focus:border-red-400 focus:ring-red-100"
+        : isGood(name)
+        ? "border-green-300 focus:border-[#FF9800] focus:ring-[#FF9800]/15"
+        : "border-[#e6e2d9] hover:border-[#d6d1c6] focus:border-[#FF9800] focus:ring-[#FF9800]/15"
     }`;
-  const labelClass = "text-lg md:text-xl font-semibold mb-2 flex gap-3 items-center text-[#313742]";
-  const iconClass = "h-7 w-7 md:h-8 md:w-8 shrink-0";
+  const labelClass = "mb-1.5 block text-sm font-semibold text-[#313742]";
+  const Req = () => <span className="text-[#FF9800]">*</span>;
+
+  // ikona w polu (lewa strona) + znaczek ✓ / ! (prawa strona)
+  const Adorn = ({ name, icon }: { name: FieldName; icon: string }) => (
+    <>
+      <img src={icon} alt="" aria-hidden="true"
+        className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 opacity-50 peer-focus:opacity-90 transition-opacity" />
+      {isGood(name) && (
+        <span aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-green-500 text-sm font-bold">✓</span>
+      )}
+      {isBad(name) && (
+        <span aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-red-500 text-sm font-bold">!</span>
+      )}
+    </>
+  );
 
   const ErrorText = ({ name }: { name: FieldName }) =>
-    touched[name] && errors[name] ? (
-      <p id={`${name}-error`} role="alert" className="mt-2 text-sm text-red-600 flex items-start gap-1.5">
-        <span aria-hidden="true">⚠</span>
+    isBad(name) ? (
+      <motion.p
+        initial={{ opacity: 0, y: -4 }}
+        animate={{ opacity: 1, y: 0 }}
+        id={`${name}-error`}
+        role="alert"
+        className="mt-1.5 text-[0.82rem] text-red-600"
+      >
         {errors[name]}
-      </p>
+      </motion.p>
     ) : null;
 
   const a11y = (name: FieldName) => ({
-    "aria-invalid": !!(touched[name] && errors[name]),
-    "aria-describedby": touched[name] && errors[name] ? `${name}-error` : undefined,
+    "aria-invalid": isBad(name),
+    "aria-describedby": isBad(name) ? `${name}-error` : undefined,
     onBlur: handleBlur,
     onChange: handleChange,
   });
@@ -317,177 +338,233 @@ const Form = () => {
   const maxDate = toLocalInput(addHours(MAX_DAYS_AHEAD * 24));
   const descLen = formData.projectDescription.length;
 
+  const nextSteps = [
+    { t: "We review your request", d: "Usually within 24 hours." },
+    { t: "We call to confirm", d: "A quick chat about your project and timing." },
+    { t: "Free consultation", d: "On-site or virtual — whatever suits you." },
+  ];
+
   return (
-    <div className="w-full bg-[#faf9f6] flex items-center justify-center py-12 px-4 sm:px-6">
-      <motion.div
-        className="w-full max-w-[60rem] font-family-serif4"
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-      >
-        <motion.h1
-          variants={itemVariants}
-          className="text-[#313742] font-bold text-3xl md:text-5xl leading-tight mb-4 text-center md:text-left"
-        >
-          Get In Touch To Schedule A Consultation
-        </motion.h1>
-        <motion.p
-          variants={itemVariants}
-          className="text-[#313742] text-lg md:text-xl mb-10 max-w-3xl text-center md:text-left"
-        >
-          Discover how we can transform your space. Contact us today to book your personalized
-          interior design consultation.
-        </motion.p>
-
-        <motion.form
-          ref={formRef}
-          onSubmit={handleSubmit}
-          noValidate
-          variants={containerVariants}
-          className="w-full bg-white/60 rounded-3xl p-5 sm:p-8 md:p-10 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6"
-        >
-          {/* Pułapka na boty – niewidoczna dla ludzi */}
-          <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
-            <label htmlFor="company">Company</label>
-            <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off"
-              value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
-          </div>
-
-          <p className="md:col-span-2 text-sm text-[#7a818b] -mb-2">
-            Fields marked with <span className="text-red-500">*</span> are required.
-          </p>
-
-          <motion.div variants={itemVariants}>
-            <label htmlFor="fullName" className={labelClass}>
-              <img src={peopleSVG} alt="" className={iconClass} /> Full Name <span className="text-red-500">*</span>
-            </label>
-            <input id="fullName" type="text" autoComplete="name" maxLength={60} value={formData.fullName}
-              placeholder="e.g. John Smith" className={inputClass("fullName")} {...a11y("fullName")} />
-            <ErrorText name="fullName" />
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <label htmlFor="email" className={labelClass}>
-              <img src={listSVG} alt="" className={iconClass} /> Email Address <span className="text-red-500">*</span>
-            </label>
-            <input id="email" type="email" autoComplete="email" inputMode="email" maxLength={100}
-              value={formData.email} placeholder="you@example.com" className={inputClass("email")} {...a11y("email")} />
-            <ErrorText name="email" />
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <label htmlFor="propertyType" className={labelClass}>
-              <img src={homeSVG} alt="" className={iconClass} /> Property / Renovation <span className="text-red-500">*</span>
-            </label>
-            <input id="propertyType" type="text" list="propertyTypeOptions" maxLength={80}
-              value={formData.propertyType} placeholder="e.g. Kitchen remodel in a house"
-              className={inputClass("propertyType")} {...a11y("propertyType")} />
-            <datalist id="propertyTypeOptions">
-              <option value="Kitchen remodel" />
-              <option value="Bathroom renovation" />
-              <option value="Living room makeover" />
-              <option value="Bedroom renovation" />
-              <option value="Flooring installation" />
-              <option value="Moulding & trim work" />
-              <option value="Whole house renovation" />
-              <option value="Apartment / Condo" />
-              <option value="Office / Commercial" />
-            </datalist>
-            <ErrorText name="propertyType" />
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <label htmlFor="phone" className={labelClass}>
-              <img src={phoneSVG} alt="" className={iconClass} /> Phone Number <span className="text-red-500">*</span>
-            </label>
-            <input id="phone" type="tel" autoComplete="tel" inputMode="tel" value={formData.phone}
-              placeholder="+1 408-555-1234" className={inputClass("phone")} {...a11y("phone")} />
-            <ErrorText name="phone" />
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <label htmlFor="dateTime" className={labelClass}>
-              <img src={calendarSVG} alt="" className={iconClass} /> Preferred Date &amp; Time <span className="text-red-500">*</span>
-            </label>
-            <input id="dateTime" type="datetime-local" min={minDate} max={maxDate} step={900}
-              value={formData.dateTime} className={inputClass("dateTime")} {...a11y("dateTime")} />
-            {touched.dateTime && errors.dateTime ? (
-              <ErrorText name="dateTime" />
-            ) : (
-              <p className="mt-2 text-sm text-[#7a818b]">
-                Mon–{SUNDAY_CLOSED ? "Sat" : "Sun"}, {formatHour(OPEN_HOUR)} – {formatHour(CLOSE_HOUR)}
-              </p>
-            )}
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <label htmlFor="zipCode" className={labelClass}>
-              <img src={pinSvg} alt="" className={iconClass} /> ZIP Code <span className="text-red-500">*</span>
-            </label>
-            <input id="zipCode" type="text" inputMode="numeric" autoComplete="postal-code" maxLength={5}
-              value={formData.zipCode} placeholder="e.g. 95112" className={inputClass("zipCode")} {...a11y("zipCode")} />
-            <ErrorText name="zipCode" />
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="md:col-span-2">
-            <label htmlFor="projectDescription" className={labelClass}>
-              <img src={notesSVG} alt="" className={iconClass} /> Brief Description Of Your Project
-            </label>
-            <textarea id="projectDescription" value={formData.projectDescription} maxLength={DESCRIPTION_MAX}
-              placeholder="Tell us about your vision, style preferences, budget, timeline..."
-              className={`${inputClass("projectDescription")} h-[9rem] md:h-[11rem] py-3 resize-y`}
-              {...a11y("projectDescription")} />
-            <div className="flex justify-between gap-4">
-              <ErrorText name="projectDescription" />
-              <span className={`mt-2 ml-auto text-sm shrink-0 ${descLen > DESCRIPTION_MAX * 0.9 ? "text-[#FF9800]" : "text-[#7a818b]"}`}>
-                {descLen}/{DESCRIPTION_MAX}
-              </span>
-            </div>
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="md:col-span-2">
-            <div className="flex items-start gap-3">
-              <input type="checkbox" id="consent" checked={formData.consent}
-                className="mt-1 w-5 h-5 accent-[#FF9800] cursor-pointer shrink-0" {...a11y("consent")} />
-              <label htmlFor="consent" className="text-[#3F3F3F] text-base md:text-lg cursor-pointer">
-                I consent to data processing <span className="text-red-500">*</span>
-              </label>
-            </div>
-            <ErrorText name="consent" />
-          </motion.div>
-
-          <motion.p variants={itemVariants} className="md:col-span-2 text-sm md:text-base text-[#7a818b] leading-relaxed">
-            By providing my phone number, I consent to receive SMS text messages from Oraczewski
-            Interiors Inc. for appointment reminders, marketing messages, and general two-way
-            communication. Please check our{" "}
-            <Link to="/Privacy" className="underline hover:text-black">privacy policy</Link> and{" "}
-            <Link to="/terms" className="underline hover:text-black">terms and conditions</Link> for details.
+    <div className="w-full bg-[#faf9f6] font-family-serif4 text-[#313742]">
+      {/* ===== Nagłówek strony ===== */}
+      <section className="bg-[#12171b] text-white">
+        <div className="max-w-[80rem] mx-auto px-4 sm:px-6 pt-16 pb-28 md:pt-20 md:pb-36 text-center">
+          <motion.p variants={itemVariants} initial="hidden" animate="visible"
+            className="text-[#FF9800] uppercase tracking-[0.3em] text-xs sm:text-sm font-semibold">
+            Contact
           </motion.p>
+          <motion.h1 variants={itemVariants} initial="hidden" animate="visible"
+            className="mt-3 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+            Schedule a Consultation
+          </motion.h1>
+          <div className="mx-auto mt-6 h-[2px] w-16 bg-[#FF9800]" />
+          <motion.p variants={itemVariants} initial="hidden" animate="visible"
+            className="mt-6 max-w-2xl mx-auto text-gray-400 text-base sm:text-lg leading-relaxed">
+            Tell us a little about your project — we’ll get back to you within 24 hours to book your
+            free, personalized consultation.
+          </motion.p>
+        </div>
+      </section>
 
-          {status && (
-            <div role="alert"
-              className={`md:col-span-2 rounded-xl p-4 border ${
-                status.type === "ok"
-                  ? "bg-green-50 border-green-200 text-green-800"
-                  : "bg-red-50 border-red-200 text-red-700"
-              }`}>
-              {status.text}
+      {/* ===== Karta: info + formularz ===== */}
+      <div className="max-w-[72rem] mx-auto px-4 sm:px-6 -mt-20 md:-mt-24 pb-20 md:pb-28 relative">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
+          className="grid lg:grid-cols-[22rem_1fr] rounded-3xl overflow-hidden bg-white shadow-[0_30px_60px_-20px_rgba(18,23,27,0.25)] border border-[#ece8df]"
+        >
+          {/* --- Panel informacyjny --- */}
+          <aside className="relative bg-[#12171b] text-white p-8 sm:p-10 overflow-hidden">
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-[#FF9800]/15 blur-3xl" />
+            <h2 className="relative text-2xl font-bold">What happens next?</h2>
+            <ol className="relative mt-8 space-y-6">
+              {nextSteps.map((st, i) => (
+                <li key={st.t} className="flex gap-4">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#FF9800]/50 bg-[#FF9800]/10 text-sm font-bold text-[#FF9800]">
+                    {i + 1}
+                  </span>
+                  <div>
+                    <p className="font-semibold">{st.t}</p>
+                    <p className="text-sm text-gray-400 mt-0.5">{st.d}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            <div className="relative mt-10 pt-8 border-t border-white/10 space-y-3 text-sm text-gray-300">
+              <p className="flex items-center gap-3"><span className="text-[#FF9800]">●</span> San Jose & the entire Bay Area</p>
+              <p className="flex items-center gap-3"><span className="text-[#FF9800]">●</span> Mon–{SUNDAY_CLOSED ? "Sat" : "Sun"}, {formatHour(OPEN_HOUR)} – {formatHour(CLOSE_HOUR)}</p>
+              <p className="flex items-center gap-3"><span className="text-[#FF9800]">●</span> Free, no-obligation estimate</p>
             </div>
-          )}
+          </aside>
 
-          <motion.div variants={itemVariants} className="md:col-span-2 flex justify-center mt-2">
-            <motion.button
-              whileHover={sending ? undefined : { scale: 1.04 }}
-              whileTap={sending ? undefined : { scale: 0.96 }}
+          {/* --- Formularz --- */}
+          <form ref={formRef} onSubmit={handleSubmit} noValidate className="relative p-6 sm:p-10">
+            {/* Pułapka na boty – niewidoczna dla ludzi */}
+            <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
+              <label htmlFor="company">Company</label>
+              <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off"
+                value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+              <div>
+                <label htmlFor="fullName" className={labelClass}>Full name <Req /></label>
+                <div className="relative">
+                  <input id="fullName" type="text" autoComplete="name" maxLength={60} value={formData.fullName}
+                    placeholder="John Smith" className={inputClass("fullName")} {...a11y("fullName")} />
+                  <Adorn name="fullName" icon={peopleSVG} />
+                </div>
+                <ErrorText name="fullName" />
+              </div>
+
+              <div>
+                <label htmlFor="email" className={labelClass}>Email address <Req /></label>
+                <div className="relative">
+                  <input id="email" type="email" autoComplete="email" inputMode="email" maxLength={100}
+                    value={formData.email} placeholder="you@example.com" className={inputClass("email")} {...a11y("email")} />
+                  <Adorn name="email" icon={listSVG} />
+                </div>
+                <ErrorText name="email" />
+              </div>
+
+              <div>
+                <label htmlFor="phone" className={labelClass}>Phone number <Req /></label>
+                <div className="relative">
+                  <input id="phone" type="tel" autoComplete="tel" inputMode="tel" value={formData.phone}
+                    placeholder="+1 408-555-1234" className={inputClass("phone")} {...a11y("phone")} />
+                  <Adorn name="phone" icon={phoneSVG} />
+                </div>
+                <ErrorText name="phone" />
+              </div>
+
+              <div>
+                <label htmlFor="zipCode" className={labelClass}>ZIP code <Req /></label>
+                <div className="relative">
+                  <input id="zipCode" type="text" inputMode="numeric" autoComplete="postal-code" maxLength={5}
+                    value={formData.zipCode} placeholder="95112" className={inputClass("zipCode")} {...a11y("zipCode")} />
+                  <Adorn name="zipCode" icon={pinSvg} />
+                </div>
+                <ErrorText name="zipCode" />
+              </div>
+
+              <div>
+                <label htmlFor="propertyType" className={labelClass}>Property / renovation <Req /></label>
+                <div className="relative">
+                  <input id="propertyType" type="text" list="propertyTypeOptions" maxLength={80}
+                    value={formData.propertyType} placeholder="e.g. Kitchen remodel"
+                    className={inputClass("propertyType")} {...a11y("propertyType")} />
+                  <Adorn name="propertyType" icon={homeSVG} />
+                </div>
+                <datalist id="propertyTypeOptions">
+                  <option value="Kitchen remodel" />
+                  <option value="Bathroom renovation" />
+                  <option value="Living room makeover" />
+                  <option value="Bedroom renovation" />
+                  <option value="Flooring installation" />
+                  <option value="Moulding & trim work" />
+                  <option value="Whole house renovation" />
+                  <option value="Apartment / Condo" />
+                  <option value="Office / Commercial" />
+                </datalist>
+                <ErrorText name="propertyType" />
+              </div>
+
+              <div>
+                <label htmlFor="dateTime" className={labelClass}>Preferred date &amp; time <Req /></label>
+                <div className="relative">
+                  <input id="dateTime" type="datetime-local" min={minDate} max={maxDate} step={900}
+                    value={formData.dateTime} className={inputClass("dateTime")} {...a11y("dateTime")} />
+                  <Adorn name="dateTime" icon={calendarSVG} />
+                </div>
+                {isBad("dateTime") ? (
+                  <ErrorText name="dateTime" />
+                ) : (
+                  <p className="mt-1.5 text-[0.82rem] text-[#8a8f98]">
+                    Mon–{SUNDAY_CLOSED ? "Sat" : "Sun"}, {formatHour(OPEN_HOUR)} – {formatHour(CLOSE_HOUR)}
+                  </p>
+                )}
+              </div>
+
+              <div className="md:col-span-2">
+                <div className="flex items-end justify-between">
+                  <label htmlFor="projectDescription" className={labelClass}>
+                    Tell us about your project <span className="font-normal text-[#8a8f98]">(optional)</span>
+                  </label>
+                  <span className={`mb-1.5 text-xs ${descLen > DESCRIPTION_MAX * 0.9 ? "text-[#FF9800]" : "text-[#a3a7ae]"}`}>
+                    {descLen}/{DESCRIPTION_MAX}
+                  </span>
+                </div>
+                <div className="relative">
+                  <textarea id="projectDescription" value={formData.projectDescription} maxLength={DESCRIPTION_MAX}
+                    placeholder="Your vision, style preferences, budget, timeline..."
+                    className={`${inputClass("projectDescription")} h-36 py-3.5 resize-y`}
+                    {...a11y("projectDescription")} />
+                  <img src={notesSVG} alt="" aria-hidden="true"
+                    className="pointer-events-none absolute left-4 top-4 h-5 w-5 opacity-50" />
+                </div>
+                <ErrorText name="projectDescription" />
+              </div>
+
+              <div className="md:col-span-2">
+                <label htmlFor="consent"
+                  className={`flex items-start gap-3 rounded-xl border p-4 cursor-pointer transition-colors ${
+                    isBad("consent") ? "border-red-300 bg-red-50/50" : formData.consent ? "border-[#FF9800]/40 bg-[#FF9800]/5" : "border-[#e6e2d9] hover:border-[#d6d1c6]"
+                  }`}>
+                  <input type="checkbox" id="consent" checked={formData.consent}
+                    className="mt-0.5 w-5 h-5 accent-[#FF9800] cursor-pointer shrink-0" {...a11y("consent")} />
+                  <span className="text-sm text-[#4a505a] leading-relaxed">
+                    <span className="font-semibold text-[#313742]">I consent to data processing <Req /></span>
+                    <br />
+                    By providing my phone number, I agree to receive SMS messages from Oraczewski Interiors
+                    Inc. (appointment reminders, marketing and two-way communication). See our{" "}
+                    <Link to="/Privacy" className="underline hover:text-[#FF9800]">privacy policy</Link> and{" "}
+                    <Link to="/terms" className="underline hover:text-[#FF9800]">terms</Link>.
+                  </span>
+                </label>
+                <ErrorText name="consent" />
+              </div>
+            </div>
+
+            {status && (
+              <motion.div
+                role="alert"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`mt-6 rounded-xl p-4 border text-sm sm:text-base ${
+                  status.type === "ok"
+                    ? "bg-green-50 border-green-200 text-green-800"
+                    : "bg-red-50 border-red-200 text-red-700"
+                }`}
+              >
+                {status.text}
+              </motion.div>
+            )}
+
+            <button
               type="submit"
               disabled={sending}
-              className="text-white text-xl md:text-2xl font-semibold rounded-2xl py-3 px-10 bg-[#FF9800] hover:bg-[#f08c00] disabled:opacity-60 disabled:cursor-wait shadow-[0_3px_8px_rgb(0,0,0,0.25)] transition-colors"
+              className="group mt-8 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#FF9800] py-4 text-lg font-semibold text-white shadow-[0_10px_25px_-10px_rgba(255,152,0,0.7)] hover:bg-[#f08c00] active:scale-[0.99] disabled:opacity-60 disabled:cursor-wait transition"
             >
-              {sending ? "Sending..." : "Submit Request"}
-            </motion.button>
-          </motion.div>
-        </motion.form>
-      </motion.div>
+              {sending ? (
+                <>
+                  <span className="h-5 w-5 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  Send Request
+                  <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+                </>
+              )}
+            </button>
+            <p className="mt-3 text-center text-xs text-[#a3a7ae]">
+              Fields marked with <Req /> are required. We never share your details.
+            </p>
+          </form>
+        </motion.div>
+      </div>
     </div>
   );
 };
