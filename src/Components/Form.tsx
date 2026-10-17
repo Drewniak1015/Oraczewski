@@ -16,12 +16,12 @@ import listSVG from "../assets/list.svg";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.12 } },
+  visible: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" } },
 };
 
 interface FormData {
@@ -112,7 +112,7 @@ const Form = () => {
         EMAILJS.serviceId,
         EMAILJS.templateId,
         { ...formData, consent: formData.consent ? "Yes" : "No" },
-        { publicKey: EMAILJS.publicKey }
+        EMAILJS.publicKey // jako tekst – działa w EmailJS v3 i v4
       );
       setStatus({
         type: "ok",
