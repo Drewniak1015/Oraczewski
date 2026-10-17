@@ -2,11 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
+import {
+  Bed, ChefHat, Sofa, Bath, Frame, LayoutGrid, Gem, PlugZap, Check, MapPin,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 interface ServicePanel {
   id: string;
   image: string;
-  icon: string;
+  icon: LucideIcon;
   title: string;
   description: string;
   details: string[];
@@ -26,7 +30,7 @@ const servicesPanels: ServicePanel[] = [
   {
     id: "bedroom",
     image: bedroomImg,
-    icon: "🛏️",
+    icon: Bed,
     title: "Bedroom Renovation",
     description:
       "Create your perfect private retreat with modern bedroom designs.",
@@ -41,7 +45,7 @@ const servicesPanels: ServicePanel[] = [
   {
     id: "kitchen",
     image: kitchenImg,
-    icon: "🛠️",
+    icon: ChefHat,
     title: "Kitchen Remodeling",
     description:
       "Upgrade your kitchen with functional, stylish, and modern solutions.",
@@ -56,7 +60,7 @@ const servicesPanels: ServicePanel[] = [
   {
     id: "living-room",
     image: livingroomImg,
-    icon: "🛋️",
+    icon: Sofa,
     title: "Living Room Makeover",
     description:
       "Transform your living space into a cozy and stylish environment.",
@@ -71,7 +75,7 @@ const servicesPanels: ServicePanel[] = [
   {
     id: "bathroom",
     image: bathRoom,
-    icon: "🛁",
+    icon: Bath,
     title: "Bathroom Renovation",
     description:
       "Transform your bathroom into a relaxing and beautiful retreat.",
@@ -86,7 +90,7 @@ const servicesPanels: ServicePanel[] = [
   {
     id: "moulding",
     image: moldingImg,
-    icon: "🪚",
+    icon: Frame,
     title: "Moulding & Trim Work",
     description: "Add elegant details with custom moulding and trim finishes.",
     details: [
@@ -100,7 +104,7 @@ const servicesPanels: ServicePanel[] = [
   {
     id: "flooring",
     image: floorImg,
-    icon: "🪵",
+    icon: LayoutGrid,
     title: "Flooring Installation & Repair",
     description: "Durable and stylish flooring solutions for every room.",
     details: [
@@ -114,7 +118,7 @@ const servicesPanels: ServicePanel[] = [
   {
     id: "stone-finishing",
     image: stoneFinishingImg,
-    icon: "🪨",
+    icon: Gem,
     title: "Stone Finishing & Installation",
     description: "Enhance your spaces with elegant stonework finishes.",
     details: [
@@ -128,7 +132,7 @@ const servicesPanels: ServicePanel[] = [
   {
     id: "electricity-plumbing",
     image: plumbingImg,
-    icon: "🔌",
+    icon: PlugZap,
     title: "Electricity & Plumbing",
     description: "Reliable and safe electrical and plumbing services.",
     details: [
@@ -214,8 +218,8 @@ const Services: React.FC = () => {
                   className="object-cover w-full h-full"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                <div className="absolute top-4 left-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white/90 backdrop-blur-sm text-2xl shadow">
-                  {panel.icon}
+                <div className="absolute top-4 left-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white/90 backdrop-blur-sm shadow">
+                  <panel.icon className="h-6 w-6 text-[#12171b]" strokeWidth={1.75} aria-hidden="true" />
                 </div>
                 <span className="absolute bottom-4 left-5 text-white/90 text-xs font-semibold tracking-[0.2em]">
                   {String(index + 1).padStart(2, "0")} / {String(servicesPanels.length).padStart(2, "0")}
@@ -228,8 +232,8 @@ const Services: React.FC = () => {
                 <ul className="mt-5 grid sm:grid-cols-2 gap-x-4 gap-y-2.5">
                   {panel.details.map((detail) => (
                     <li key={detail} className="flex items-start gap-2.5 text-[#4a505a]">
-                      <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#FF9800]/15 text-[#FF9800] text-[0.65rem] font-bold">
-                        ✓
+                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FF9800]/15">
+                        <Check className="h-3 w-3 text-[#FF9800]" strokeWidth={3} aria-hidden="true" />
                       </span>
                       <span className="text-[0.95rem] leading-snug">{detail}</span>
                     </li>
@@ -267,7 +271,7 @@ const Services: React.FC = () => {
                 key={city}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#faf9f6] border border-[#ece8df] text-sm sm:text-base hover:border-[#FF9800] hover:text-[#FF9800] transition-colors cursor-default"
               >
-                <span aria-hidden="true" className="text-[#FF9800] text-xs">●</span>
+                <MapPin className="h-3.5 w-3.5 text-[#FF9800]" strokeWidth={2} aria-hidden="true" />
                 {city}
               </span>
             ))}
