@@ -2,11 +2,18 @@ import { Link } from "react-router-dom";
 
 const Terms = () => {
   return (
-    <div>
-      <div className="terms-container text-black p-6 max-w-4xl mx-auto leading-relaxed rounded-xl">
-        <h1 className="text-3xl font-bold mb-4">Terms and Conditions</h1>
+    <div className="bg-[#faf9f6] w-full font-family-serif4 text-[#313742]">
+      <section className="bg-[#12171b] text-white">
+        <div className="max-w-[80rem] mx-auto px-4 sm:px-6 py-14 md:py-20 text-center">
+          <p className="text-[#FF9800] uppercase tracking-[0.3em] text-xs sm:text-sm font-semibold">Legal</p>
+          <h1 className="mt-3 text-4xl sm:text-5xl font-bold">Terms and Conditions</h1>
+          <div className="mx-auto mt-6 h-[2px] w-16 bg-[#FF9800]" />
+        </div>
+      </section>
 
-        <div className="mb-6">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+      <div className="terms-container bg-white rounded-3xl border border-[#ece8df] shadow-sm p-6 sm:p-10 leading-relaxed text-[#4a505a] [&_strong]:text-[#313742] [&_ul]:pl-1 [&_li]:marker:text-[#FF9800]">
+        <div className="mb-8 grid sm:grid-cols-2 gap-x-6 gap-y-2 rounded-2xl bg-[#faf9f6] border border-[#ece8df] p-5 text-sm sm:text-base">
           <p>
             <strong>Effective Date:</strong> Data Obowiązywania
           </p>
@@ -29,7 +36,7 @@ const Terms = () => {
         </p>
 
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">1. Services</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 text-[#12171b]">1. Services</h2>
           <p>
             Oraczewski Interiors provides custom interior finishing services
             across California, including but not limited to:
@@ -76,7 +83,7 @@ const Terms = () => {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">2. Use of the Website</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 text-[#12171b]">2. Use of the Website</h2>
           <p>
             You agree to use this website only for lawful purposes. You must
             not:
@@ -94,7 +101,7 @@ const Terms = () => {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 text-[#12171b]">
             3. Estimates and Proposals
           </h2>
           <p>
@@ -105,7 +112,7 @@ const Terms = () => {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 text-[#12171b]">
             4. Intellectual Property
           </h2>
           <p>
@@ -123,7 +130,7 @@ const Terms = () => {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 text-[#12171b]">
             5. Limitation of Liability
           </h2>
           <p>
@@ -141,7 +148,7 @@ const Terms = () => {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">6. Third-Party Links</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 text-[#12171b]">6. Third-Party Links</h2>
           <p>
             Our website may contain links to third-party websites. We are not
             responsible for their content, privacy practices, or availability.
@@ -149,10 +156,10 @@ const Terms = () => {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">7. Privacy Policy</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 text-[#12171b]">7. Privacy Policy</h2>
           <p>
             We value your privacy. Please review our{" "}
-            <Link to="/Privacy" className="text-blue-400 hover:underline">
+            <Link to="/Privacy" className="text-[#FF9800] font-semibold hover:underline">
               Privacy Policy
             </Link>{" "}
             for details on how we collect, store, and protect your personal
@@ -161,7 +168,7 @@ const Terms = () => {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">8. Warranty</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 text-[#12171b]">8. Warranty</h2>
           <p>
             We offer a <strong>12-month limited warranty</strong> on labor and
             installation, effective from the project completion date.
@@ -191,7 +198,7 @@ const Terms = () => {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 text-[#12171b]">
             9. Cancellation & Changes
           </h2>
           <ul className="list-disc list-inside space-y-1">
@@ -211,7 +218,7 @@ const Terms = () => {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">10. Changes to Terms</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 text-[#12171b]">10. Changes to Terms</h2>
           <p>
             We may update these Terms and Conditions at any time. Continued use
             of the website means you accept the revised terms.
@@ -219,13 +226,14 @@ const Terms = () => {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">11. Governing Law</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 text-[#12171b]">11. Governing Law</h2>
           <p>
             These terms are governed by the laws of the{" "}
             <strong>State of California</strong>, and any disputes will be
             handled exclusively in California courts.
           </p>
         </div>
+      </div>
       </div>
     </div>
   );

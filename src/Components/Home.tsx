@@ -154,63 +154,74 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="bg-[#F6F3E8] py-16 w-full flex items-center justify-center">
-        <div className="flex flex-col items-center w-[90%] max-w-[80rem]">
-          <motion.h1
+      {/* ===== WELCOME ===== */}
+      <section className="bg-[#faf9f6] w-full py-20 md:py-28 font-family-serif4 text-[#313742]">
+        <div className="max-w-[80rem] mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <motion.div
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             custom={0}
-            className="text-3xl sm:text-4xl lg:text-5xl font-semibold font-family-serif4 text-center"
           >
-            Welcome to Oraczewski Interiors
-          </motion.h1>
+            <p className="text-[#FF9800] uppercase tracking-[0.3em] text-xs sm:text-sm font-semibold">
+              Welcome
+            </p>
+            <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+              Where all-inclusive design meets home quality
+            </h2>
+            <div className="mt-6 h-[2px] w-16 bg-[#FF9800]" />
+            <div className="mt-6 space-y-4 text-base sm:text-lg leading-relaxed text-[#4a505a]">
+              <p>
+                Oraczewski Interiors is a team with a passion for creating elegant, functional and
+                timeless living spaces across the Bay Area. Our tailored process is made for people
+                who value professionalism, transparency and a full-service experience.
+              </p>
+              <p>
+                From concept to completion, we balance aesthetics and practicality — crafting spaces
+                that reflect each client’s unique lifestyle and taste, with meticulous project
+                management and trusted architects at our side.
+              </p>
+            </div>
 
-          <div className="w-32 sm:w-64 h-[2px] bg-gray-900 my-8"></div>
+            <ul className="mt-8 grid sm:grid-cols-2 gap-3">
+              {["Full-service, start to finish", "Transparent pricing", "European craftsmanship", "Projects across the Bay Area"].map((item) => (
+                <li key={item} className="flex items-center gap-2.5 text-[#313742] font-medium">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FF9800]/15 text-[#FF9800] text-xs font-bold">✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
 
-          <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-16">
-            <motion.p
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={1}
-              className="text-base sm:text-lg lg:text-xl lg:w-1/2 text-justify tracking-wide"
-            >
-              Where all-inclusive design meets home quality. Oraczewski
-              Interiors is a team with a passion for creating elegant,
-              functional, and timeless living spaces across Bay Area. Our
-              tailored design process was created for individuals who value
-              professionalism, transparency, and a full-service experience.
-              <br />
-              <br />
-              From concept to completion, we deliver interior design solutions
-              that balance aesthetics and practicality. With high-end
-              residential projects in major cities and intimate locations alike,
-              Oraczewski Interiors is known for crafting spaces that reflect each client’s
-              unique lifestyle and taste.
-              <br />
-              <br />
-              Our team is committed to providing top-quality service, seamless
-              execution, and meticulous project management. We take pride in
-              collaborating with trusted architects to deliver cohesive
-              interiors that are not only beautiful but truly livable.
-            </motion.p>
+            <div className="mt-10 flex flex-col sm:flex-row gap-3">
+              <Link to="/about"
+                className="text-center rounded-full bg-[#12171b] px-7 py-3.5 font-semibold text-white hover:bg-[#FF9800] transition">
+                About Our Team
+              </Link>
+              <Link to="/portfolio"
+                className="text-center rounded-full border border-[#313742]/25 px-7 py-3.5 font-semibold hover:border-[#FF9800] hover:text-[#FF9800] transition">
+                View Portfolio
+              </Link>
+            </div>
+          </motion.div>
 
-            <motion.img
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={2}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            custom={1}
+            className="relative"
+          >
+            <div className="absolute -top-4 -right-4 w-full h-full rounded-2xl border-2 border-[#FF9800]/60 hidden sm:block" />
+            <img
               src={HomeImage2}
-              alt="Oraczewski Interiors"
-              className="w-full lg:w-1/2 h-auto object-cover rounded-xl"
+              alt="Interior finished by Oraczewski Interiors"
+              className="relative w-full h-80 sm:h-[30rem] lg:h-[36rem] object-cover rounded-2xl shadow-xl"
             />
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </section>
 
       {/* ===== HOW IT WORKS ===== */}
       <section className="relative w-full bg-[#12171b] py-20 md:py-28 font-family-serif4 overflow-hidden">

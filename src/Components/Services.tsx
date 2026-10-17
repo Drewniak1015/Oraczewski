@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 
 interface ServicePanel {
   id: string;
@@ -162,80 +164,143 @@ const operatingCities = [
   "Santa Rosa",
 ];
 
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, delay: i * 0.06, ease: "easeOut" },
+  }),
+};
+
 const Services: React.FC = () => {
   return (
-    <div className="services-page max-w-[80rem] mx-auto px-6 py-10 bg-white shadow-2xl">
-      {/* Nagłówek */}
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="text-4xl font-extrabold mb-12 text-gray-800 text-center"
-      >
-        Our Services
-      </motion.h1>
+    <div className="bg-[#faf9f6] w-full font-family-serif4 text-[#313742]">
+      {/* ===== Nagłówek strony ===== */}
+      <section className="bg-[#12171b] text-white">
+        <div className="max-w-[80rem] mx-auto px-4 sm:px-6 py-16 md:py-24 text-center">
+          <motion.p variants={fadeUp} initial="hidden" animate="visible" custom={0}
+            className="text-[#FF9800] uppercase tracking-[0.3em] text-xs sm:text-sm font-semibold">
+            What We Do
+          </motion.p>
+          <motion.h1 variants={fadeUp} initial="hidden" animate="visible" custom={1}
+            className="mt-3 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+            Our Services
+          </motion.h1>
+          <div className="mx-auto mt-6 h-[2px] w-16 bg-[#FF9800]" />
+          <motion.p variants={fadeUp} initial="hidden" animate="visible" custom={2}
+            className="mt-6 max-w-2xl mx-auto text-gray-400 text-base sm:text-lg leading-relaxed">
+            From a single room refresh to a complete remodel — one team, one point of contact,
+            and craftsmanship you can see in every detail.
+          </motion.p>
+        </div>
+      </section>
 
-      {/* Karty usług */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        {servicesPanels.map((panel, index) => (
-          <motion.div
-            key={panel.id}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.1, duration: 0.5, ease: "easeOut" }}
-            viewport={{ once: true }}
-            whileHover={{
-              scale: 1.02,
-              boxShadow: "0 12px 25px rgba(0,0,0,0.12)",
-            }}
-            className="bg-white shadow-lg rounded-2xl overflow-hidden transition-transform duration-300"
-          >
-            <div className="relative h-72 md:h-[28rem]">
-              <img
-                src={panel.image}
-                alt={panel.title}
-                className="object-cover w-full h-full"
-              />
-              <div className="absolute top-4 left-4 bg-black bg-opacity-60 backdrop-blur-sm text-white text-3xl p-3 rounded-full">
-                {panel.icon}
-              </div>
-            </div>
-            <div className="p-8">
-              <h2 className="text-2xl font-bold mb-3 text-gray-900">
-                {panel.title}
-              </h2>
-              <p className="mb-5 text-gray-600">{panel.description}</p>
-              <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                {panel.details.map((detail, i) => (
-                  <li key={i}>{detail}</li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Miasta */}
-      <div className="mt-16 text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">
-          We Operate In These Cities
-        </h2>
-        <div className="flex flex-wrap justify-center gap-4">
-          {operatingCities.map((city, i) => (
-            <motion.span
-              key={city}
-              className="px-4 py-2 bg-gray-100 text-gray-800 rounded-full shadow cursor-default"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              whileHover={{ scale: 1.1, backgroundColor: "#e2e8f0" }}
-              transition={{ delay: i * 0.05, duration: 0.4, ease: "easeOut" }}
-              viewport={{ once: true }}
+      {/* ===== Karty usług ===== */}
+      <section className="max-w-[80rem] mx-auto px-4 sm:px-6 py-16 md:py-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {servicesPanels.map((panel, index) => (
+            <motion.article
+              key={panel.id}
+              id={panel.id}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
+              custom={index % 2}
+              className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-[#ece8df] shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300"
             >
-              {city}
-            </motion.span>
+              <div className="relative h-60 sm:h-72 lg:h-80 overflow-hidden">
+                <img
+                  src={panel.image}
+                  alt={panel.title}
+                  loading="lazy"
+                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                <div className="absolute top-4 left-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white/90 backdrop-blur-sm text-2xl shadow">
+                  {panel.icon}
+                </div>
+                <span className="absolute bottom-4 left-5 text-white/90 text-xs font-semibold tracking-[0.2em]">
+                  {String(index + 1).padStart(2, "0")} / {String(servicesPanels.length).padStart(2, "0")}
+                </span>
+              </div>
+
+              <div className="flex flex-1 flex-col p-6 sm:p-8">
+                <h2 className="text-2xl font-bold">{panel.title}</h2>
+                <p className="mt-2 text-[#6b717b] leading-relaxed">{panel.description}</p>
+                <ul className="mt-5 grid sm:grid-cols-2 gap-x-4 gap-y-2.5">
+                  {panel.details.map((detail) => (
+                    <li key={detail} className="flex items-start gap-2.5 text-[#4a505a]">
+                      <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#FF9800]/15 text-[#FF9800] text-[0.65rem] font-bold">
+                        ✓
+                      </span>
+                      <span className="text-[0.95rem] leading-snug">{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  to="/contact"
+                  className="mt-auto pt-6 inline-flex items-center gap-1.5 self-start font-semibold text-[#313742] hover:text-[#FF9800] transition-colors"
+                >
+                  Request a quote <span aria-hidden="true" className="group-hover:translate-x-1 transition-transform">→</span>
+                </Link>
+              </div>
+            </motion.article>
           ))}
         </div>
-      </div>
+      </section>
+
+      {/* ===== Obszar działania ===== */}
+      <section className="bg-white border-y border-[#ece8df]">
+        <div className="max-w-[80rem] mx-auto px-4 sm:px-6 py-16 md:py-20 text-center">
+          <p className="text-[#FF9800] uppercase tracking-[0.3em] text-xs sm:text-sm font-semibold">
+            Service Area
+          </p>
+          <h2 className="mt-3 text-3xl sm:text-4xl font-bold">We Operate Across the Bay Area</h2>
+          <div className="mx-auto mt-6 h-[2px] w-16 bg-[#FF9800]" />
+          <div className="mt-10 flex flex-wrap justify-center gap-2.5 sm:gap-3 max-w-4xl mx-auto">
+            {operatingCities.map((city, i) => (
+              <motion.span
+                key={city}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.015, duration: 0.25, ease: "easeOut" }}
+                viewport={{ once: true }}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#faf9f6] border border-[#ece8df] text-sm sm:text-base hover:border-[#FF9800] hover:text-[#FF9800] transition-colors cursor-default"
+              >
+                <span aria-hidden="true" className="text-[#FF9800] text-xs">●</span>
+                {city}
+              </motion.span>
+            ))}
+          </div>
+          <p className="mt-8 text-[#6b717b]">
+            Don’t see your city? <Link to="/contact" className="font-semibold text-[#313742] underline hover:text-[#FF9800]">Ask us</Link> — we may still be able to help.
+          </p>
+        </div>
+      </section>
+
+      {/* ===== CTA ===== */}
+      <section className="max-w-[80rem] mx-auto px-4 sm:px-6 py-16 md:py-24">
+        <div className="rounded-3xl bg-[#12171b] text-white px-6 sm:px-12 py-12 md:py-16 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+          <div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Have a project in mind?</h2>
+            <p className="mt-3 text-gray-400 text-base sm:text-lg">
+              Tell us about it — we’ll get back to you within 24 hours.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+            <Link to="/contact"
+              className="rounded-full bg-[#FF9800] px-7 py-3.5 font-semibold text-white hover:bg-white hover:text-black transition">
+              Get a Free Quote
+            </Link>
+            <Link to="/portfolio"
+              className="rounded-full border border-white/30 px-7 py-3.5 font-semibold text-white hover:border-white hover:bg-white/10 transition">
+              See Our Work
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

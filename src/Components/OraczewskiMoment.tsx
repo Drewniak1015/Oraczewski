@@ -141,7 +141,7 @@ export default function OraczewskiMoment() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-6rem)] bg-[#f9f7f1]">
+    <div className="min-h-[calc(100vh-6rem)] bg-[#f9f7f1] overflow-x-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         {/* Nagłówek */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
@@ -159,10 +159,11 @@ export default function OraczewskiMoment() {
           </button>
         </div>
 
-        {/* Komunikat */}
+        {/* Komunikat – pływający w rogu, nie przesuwa strony */}
         {message && (
           <div
-            className={`mb-6 rounded-lg p-3 text-sm border ${
+            role="status"
+            className={`fixed bottom-6 right-4 left-4 sm:left-auto sm:max-w-sm z-[300] rounded-xl p-4 text-sm border shadow-lg ${
               message.type === "ok"
                 ? "bg-green-50 border-green-200 text-green-700"
                 : "bg-red-50 border-red-200 text-red-700"
@@ -178,10 +179,10 @@ export default function OraczewskiMoment() {
           <div className="flex flex-col md:flex-row gap-6 items-start">
             <label
               htmlFor="photo-input"
-              className="flex-1 w-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-black rounded-xl p-8 cursor-pointer transition text-center"
+              className="flex-1 min-w-0 w-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-black rounded-xl p-8 cursor-pointer transition text-center"
             >
               <span className="text-4xl mb-2">📷</span>
-              <span className="font-medium">
+              <span className="font-medium max-w-full break-all line-clamp-2">
                 {selectedFile ? selectedFile.name : "Kliknij, aby wybrać zdjęcie"}
               </span>
               <span className="text-sm text-gray-500 mt-1">
@@ -201,7 +202,7 @@ export default function OraczewskiMoment() {
               <img
                 src={preview}
                 alt="Podgląd"
-                className="w-full md:w-48 h-48 object-cover rounded-xl border"
+                className="w-full md:w-48 h-48 shrink-0 object-cover rounded-xl border"
               />
             )}
           </div>

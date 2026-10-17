@@ -19,12 +19,23 @@ import OraczewskiMoment from "./Components/OraczewskiMoment";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import AdminLogin from "./Components/Admin";
 
-// Po zmianie podstrony przewija na górę
+// Po zmianie podstrony przewija na górę, a przy linku z # (np. /services#kitchen)
+// przewija do wskazanej sekcji
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
+    if (hash) {
+      const t = setTimeout(() => {
+        const el = document.getElementById(decodeURIComponent(hash.slice(1)));
+        if (el) {
+          const y = el.getBoundingClientRect().top + window.scrollY - 110; // wysokość nagłówka
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }
+      }, 100);
+      return () => clearTimeout(t);
+    }
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [pathname, hash]);
   return null;
 };
 

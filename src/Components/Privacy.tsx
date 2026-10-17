@@ -5,9 +5,17 @@ const CONTACT_EMAIL = "handyman10@gmail.com";
 
 const Privacy: React.FC = () => {
   return (
-    <div className="bg-[#faf9f6] w-full">
-      <div className="privacy-policy px-6 py-12 max-w-4xl mx-auto leading-relaxed text-[#313742]">
-        <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
+    <div className="bg-[#faf9f6] w-full font-family-serif4 text-[#313742]">
+      <section className="bg-[#12171b] text-white">
+        <div className="max-w-[80rem] mx-auto px-4 sm:px-6 py-14 md:py-20 text-center">
+          <p className="text-[#FF9800] uppercase tracking-[0.3em] text-xs sm:text-sm font-semibold">Legal</p>
+          <h1 className="mt-3 text-4xl sm:text-5xl font-bold">Privacy Policy</h1>
+          <div className="mx-auto mt-6 h-[2px] w-16 bg-[#FF9800]" />
+        </div>
+      </section>
+
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+      <div className="privacy-policy bg-white rounded-3xl border border-[#ece8df] shadow-sm p-6 sm:p-10 leading-relaxed text-[#4a505a] [&_li]:marker:text-[#FF9800]">
 
         <p>
           Oraczewski Interiors Inc. ("we", "our", or "us") respects your privacy
@@ -17,7 +25,7 @@ const Privacy: React.FC = () => {
           California.
         </p>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">Information We Collect</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mt-10 mb-3 text-[#12171b]">Information We Collect</h2>
         <p>We may collect the following types of personal information:</p>
         <ul className="list-disc pl-6 mt-2 space-y-1">
           <li>
@@ -27,7 +35,7 @@ const Privacy: React.FC = () => {
           <li>Information you provide when you fill out forms or request a quote</li>
         </ul>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">How We Use Your Information</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mt-10 mb-3 text-[#12171b]">How We Use Your Information</h2>
         <p>We use your personal information to:</p>
         <ul className="list-disc pl-6 mt-2 space-y-1">
           <li>Respond to your inquiries and provide our services</li>
@@ -36,7 +44,7 @@ const Privacy: React.FC = () => {
           <li>Comply with legal obligations</li>
         </ul>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">Sharing Your Information</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mt-10 mb-3 text-[#12171b]">Sharing Your Information</h2>
         <p>
           We do not sell your personal information. We may share your information
           with trusted third parties who assist us in operating our business, such
@@ -45,7 +53,7 @@ const Privacy: React.FC = () => {
           delivered via the EmailJS service.
         </p>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">Your Privacy Rights</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mt-10 mb-3 text-[#12171b]">Your Privacy Rights</h2>
         <p>
           If you're a resident of California or any other region with privacy
           regulations, please know that we respect your privacy rights. You may
@@ -53,26 +61,27 @@ const Privacy: React.FC = () => {
           personal data.
         </p>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">Security</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mt-10 mb-3 text-[#12171b]">Security</h2>
         <p>
           We take reasonable measures to protect your personal information from
           unauthorized access, disclosure, or misuse.
         </p>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">Changes to This Privacy Policy</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mt-10 mb-3 text-[#12171b]">Changes to This Privacy Policy</h2>
         <p>
           We may update this Privacy Policy from time to time. The updated policy
           will be posted on this page with a new effective date.
         </p>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">Contact Us</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mt-10 mb-3 text-[#12171b]">Contact Us</h2>
         <p>
           If you have any questions or concerns about this Privacy Policy, please
           contact us at:{" "}
-          <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-600 underline">
+          <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#FF9800] font-semibold hover:underline">
             {CONTACT_EMAIL}
           </a>
         </p>
+      </div>
       </div>
     </div>
   );
